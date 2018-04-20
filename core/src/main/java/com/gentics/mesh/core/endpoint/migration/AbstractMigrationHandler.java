@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.script.ScriptEngine;
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
 
 import com.gentics.mesh.context.impl.NodeMigrationActionContextImpl;
 import com.gentics.mesh.core.data.GraphFieldContainer;
@@ -24,8 +26,6 @@ import com.gentics.mesh.util.Tuple;
 
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import jdk.nashorn.api.scripting.ClassFilter;
-import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 @SuppressWarnings("restriction")
 public abstract class AbstractMigrationHandler extends AbstractHandler implements MigrationHandler {
@@ -35,7 +35,7 @@ public abstract class AbstractMigrationHandler extends AbstractHandler implement
 	/**
 	 * Script engine factory.
 	 */
-	protected NashornScriptEngineFactory factory = new NashornScriptEngineFactory();
+	protected ScriptEngineManager scriptManager = new ScriptEngineManager();
 
 	protected Database db;
 
@@ -112,7 +112,7 @@ public abstract class AbstractMigrationHandler extends AbstractHandler implement
 		for (Tuple<String, List<Tuple<String, Object>>> scriptEntry : migrationScripts) {
 			String script = scriptEntry.v1();
 			List<Tuple<String, Object>> context = scriptEntry.v2();
-			ScriptEngine engine = factory.getScriptEngine(new Sandbox());
+			ScriptEngine engine = scriptManager.getEngineByName("nashorn");
 
 			engine.put("node", nodeJson);
 			engine.put("convert", new TypeConverter());
@@ -138,16 +138,6 @@ public abstract class AbstractMigrationHandler extends AbstractHandler implement
 		container.setSchemaContainerVersion(newVersion);
 		container.updateFieldsFromRest(ac, transformedRestModel.getFields());
 
-	}
-
-	/**
-	 * Sandbox classfilter that filters all classes
-	 */
-	protected static class Sandbox implements ClassFilter {
-		@Override
-		public boolean exposeToScripts(String className) {
-			return false;
-		}
 	}
 
 }
