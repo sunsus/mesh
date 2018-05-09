@@ -35,8 +35,8 @@ public class ServerRunner {
 		// options.getStorageOptions().setStartServer(true);
 		// options.getClusterOptions().setClusterName("test");
 		// options.getClusterOptions().setEnabled(true);
-		// options.getSearchOptions().setUrl(null);
-		// options.getSearchOptions().setStartEmbedded(false);
+		options.getSearchOptions().setUrl("http://localhost:9200");
+		options.getSearchOptions().setStartEmbedded(true);
 
 		Mesh mesh = Mesh.mesh(options);
 		mesh.setCustomLoader((vertx) -> {
