@@ -2,6 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>mesh-diktyo</artifactId>
+	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>com.gentics.mesh</groupId>
@@ -15,6 +16,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<projectRoot>${project.basedir}/..</projectRoot>
 	</properties>
+	
+	<modules>
+		<module>core</module>
+		<module>api</module>
+		<module>orientdb</module>
+	</modules>
 
 	<dependencies>
 		<dependency>
