@@ -11,12 +11,13 @@
 	</parent>
 
 	<inceptionYear>2018</inceptionYear>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<projectRoot>${project.basedir}/..</projectRoot>
+		<dagger.version>2.15</dagger.version>
 	</properties>
-	
+
 	<modules>
 		<module>core</module>
 		<module>api</module>

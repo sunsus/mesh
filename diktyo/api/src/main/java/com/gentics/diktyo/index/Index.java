@@ -1,5 +1,10 @@
 package com.gentics.diktyo.index;
 
-public class Index {
+public interface Index {
+
+	/**
+	 * List all indices
+	 */
+	void list();
 
 }

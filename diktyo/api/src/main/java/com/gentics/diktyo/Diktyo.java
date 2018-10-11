@@ -3,7 +3,9 @@ package com.gentics.diktyo;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
-import com.gentics.diktyo.db.DiktyoDB;
+import com.gentics.diktyo.db.Database;
+import com.gentics.diktyo.db.DatabaseManager;
+import com.gentics.diktyo.index.Index;
 
 public interface Diktyo {
 
@@ -23,17 +25,12 @@ public interface Diktyo {
 		}
 	}
 
+	DatabaseManager db();
+	
 	/**
-	 * Open the database with the given name.
+	 * Return the index management.
 	 * 
-	 * @param name
+	 * @return
 	 */
-	DiktyoDB open(String name);
-
-	/**
-	 * Create a new database with the given name.
-	 * 
-	 * @param name
-	 */
-	void create(String name);
+	Index index();
 }
