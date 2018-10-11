@@ -27,6 +27,17 @@
 			<artifactId>orientdb-gremlin</artifactId>
 			<version>${orientdb.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.orientechnologies</groupId>
+			<artifactId>orientdb-server</artifactId>
+			<version>${orientdb.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.orientechnologies</groupId>
+			<artifactId>orientdb-distributed</artifactId>
+			<version>${orientdb.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -3,13 +3,13 @@ package com.gentics.diktyo.orientdb.index;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.gentics.diktyo.index.impl.AbstractDiktyoIndex;
+import com.gentics.diktyo.index.impl.AbstractIndex;
 
 @Singleton
-public class DiktyoIndexImpl extends AbstractDiktyoIndex {
+public class IndexImpl extends AbstractIndex {
 
 	@Inject
-	public DiktyoIndexImpl() {
+	public IndexImpl() {
 	}
 
 	@Override

@@ -1,9 +1,9 @@
-package com.gentics.diktyo.orientdb.dagger;
+package com.gentics.diktyo.orientdb3.dagger;
 
 import com.gentics.diktyo.Diktyo;
 import com.gentics.diktyo.index.Index;
-import com.gentics.diktyo.orientdb.DiktyoImpl;
-import com.gentics.diktyo.orientdb.index.IndexImpl;
+import com.gentics.diktyo.orientdb3.DiktyoImpl;
+import com.gentics.diktyo.orientdb3.index.IndexImpl;
 
 import dagger.Binds;
 import dagger.Module;
