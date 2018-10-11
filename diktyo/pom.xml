@@ -22,19 +22,10 @@
 		<module>core</module>
 		<module>api</module>
 		<module>orientdb</module>
+		<module>orientdb3</module>
 	</modules>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.syncleus.ferma</groupId>
-			<artifactId>ferma</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>net.bytebuddy</groupId>
-					<artifactId>byte-buddy</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 	</dependencies>
 
 	<build>
