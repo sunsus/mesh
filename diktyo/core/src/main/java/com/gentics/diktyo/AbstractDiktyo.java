@@ -1,4 +1,4 @@
-package com.gentics.diktyo.impl;
+package com.gentics.diktyo;
 
 import com.gentics.diktyo.Diktyo;
 

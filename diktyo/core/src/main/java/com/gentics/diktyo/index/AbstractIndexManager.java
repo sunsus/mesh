@@ -1,4 +1,4 @@
-package com.gentics.diktyo.index.impl;
+package com.gentics.diktyo.index;
 
 import com.gentics.diktyo.index.IndexManager;
 

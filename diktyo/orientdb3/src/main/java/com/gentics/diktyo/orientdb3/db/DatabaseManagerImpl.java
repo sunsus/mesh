@@ -3,6 +3,7 @@ package com.gentics.diktyo.orientdb3.db;
 import java.util.Iterator;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.apache.tinkerpop.gremlin.orientdb.OrientGraph;
@@ -22,13 +23,16 @@ import com.orientechnologies.orient.core.record.OVertex;
 public class DatabaseManagerImpl implements DatabaseManager {
 
 	@Inject
+	Provider<Database> dbProvider;
+
+	@Inject
 	public DatabaseManagerImpl() {
 
 	}
 
 	@Override
 	public Database open(String name) {
-		return new DatabaseImpl();
+		return dbProvider.get();
 	}
 
 	@Override
@@ -37,7 +41,8 @@ public class DatabaseManagerImpl implements DatabaseManager {
 		try (OrientGraphFactory factory = new OrientGraphFactory("plocal:" + name)) {
 		}
 		// vs.
-		OrientDB orientDb = new OrientDB("embedded:./databases/", OrientDBConfig.defaultConfig());
+		OrientDBConfig config = OrientDBConfig.defaultConfig();
+		OrientDB orientDb = new OrientDB("embedded:./databases/", config);
 		orientDb.create("test", ODatabaseType.MEMORY);
 
 		// Core API
@@ -51,6 +56,7 @@ public class DatabaseManagerImpl implements DatabaseManager {
 
 		// Tinkerpop 3.x API
 		try (OrientGraphFactory graph = new OrientGraphFactory(orientDb, "test", ODatabaseType.MEMORY, "admin", "admin")) {
+			graph.setupPool(10, 100);
 			try (OrientGraph tx = graph.getTx()) {
 				Vertex v = tx.addVertex();
 				v.property("test", "blub");

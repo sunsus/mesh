@@ -13,9 +13,13 @@ public class BasicTest {
 	@Test
 	public void testBasics() {
 		Diktyo diktyo = Diktyo.diktyo();
-		diktyo.index().list();
 		diktyo.db().create("test");
 		Database db = diktyo.db().open("test");
+		db.index().list();
+		System.out.println(db);
+		db.close();
+		db = diktyo.db().open("test");
+		System.out.println(db);
 		db.close();
 	}
 

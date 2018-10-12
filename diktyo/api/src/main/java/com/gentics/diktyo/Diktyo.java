@@ -3,7 +3,6 @@ package com.gentics.diktyo;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
-import com.gentics.diktyo.db.Database;
 import com.gentics.diktyo.db.DatabaseManager;
 import com.gentics.diktyo.index.Index;
 
@@ -26,11 +25,5 @@ public interface Diktyo {
 	}
 
 	DatabaseManager db();
-	
-	/**
-	 * Return the index management.
-	 * 
-	 * @return
-	 */
-	Index index();
+
 }
