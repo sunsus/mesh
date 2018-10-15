@@ -27,4 +27,15 @@ public class DatabaseManagerImpl implements DatabaseManager {
 	@Override
 	public void create(String name) {
 	}
+
+	@Override
+	public void delete(String name) {
+
+	}
+	
+	@Override
+	public boolean exists(String name) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

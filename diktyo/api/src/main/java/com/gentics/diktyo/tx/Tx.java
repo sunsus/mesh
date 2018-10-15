@@ -12,8 +12,14 @@ public interface Tx extends BaseTransaction {
 		Tx.threadLocalTx.set(tx);
 	}
 
+	/**
+	 * Commit the transaction.
+	 */
 	void commit();
-	
+
+	/**
+	 * Rollback the transaction.
+	 */
 	void rollback();
 
 	/**

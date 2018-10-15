@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.ServiceLoader;
 
 import com.gentics.diktyo.db.DatabaseManager;
-import com.gentics.diktyo.index.Index;
 
 public interface Diktyo {
 
@@ -24,6 +23,11 @@ public interface Diktyo {
 		}
 	}
 
+	/**
+	 * Return the database manager which is used to access,create and delete databases.
+	 * 
+	 * @return
+	 */
 	DatabaseManager db();
 
 }

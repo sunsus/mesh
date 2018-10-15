@@ -8,12 +8,19 @@ import com.gentics.diktyo.index.AbstractIndex;
 @Singleton
 public class IndexImpl extends AbstractIndex {
 
+	private String name;
+
 	@Inject
 	public IndexImpl() {
 	}
 
 	@Override
-	public void list() {
-		System.out.println("list");
+	public String name() {
+		return name;
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 }

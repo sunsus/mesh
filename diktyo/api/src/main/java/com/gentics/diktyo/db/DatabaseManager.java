@@ -1,5 +1,8 @@
 package com.gentics.diktyo.db;
 
+/**
+ * Manager for graph databases.
+ */
 public interface DatabaseManager {
 
 	/**
@@ -15,5 +18,20 @@ public interface DatabaseManager {
 	 * @param name
 	 */
 	void create(String name);
+
+	/**
+	 * Delete the database with the given name.
+	 * 
+	 * @param name
+	 */
+	void delete(String name);
+
+	/**
+	 * Check whether the given database exists.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	boolean exists(String name);
 
 }

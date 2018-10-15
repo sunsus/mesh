@@ -3,8 +3,10 @@ package com.gentics.diktyo.index;
 public interface Index {
 
 	/**
-	 * List all indices
+	 * Return the name of the index.
+	 * 
+	 * @return
 	 */
-	void list();
+	String name();
 
 }

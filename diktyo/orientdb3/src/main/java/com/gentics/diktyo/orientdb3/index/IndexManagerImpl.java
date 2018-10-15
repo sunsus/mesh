@@ -14,21 +14,21 @@ import com.orientechnologies.orient.core.index.OIndexManager;
 
 @Singleton
 public class IndexManagerImpl extends AbstractIndexManager {
-	
+
 	@Inject
 	public IndexManagerImpl() {
 	}
-	
+
 	@Override
 	public boolean exists(String name) {
 		ODatabaseSession db = null;
 		db.getMetadata().getSchema().existsClass(name);
-		
-		//or 
+
+		// or
 		OrientGraph graph = null;
 		OIndexManager idxMgr = graph.getRawDatabase().getMetadata().getIndexManager();
 		idxMgr.existsIndex("indexName");
-		
+
 		return true;
 	}
 
