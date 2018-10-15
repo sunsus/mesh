@@ -1,26 +1,15 @@
 package com.gentics.diktyo.wrapper.element;
 
-public class AbstractWrappedEdge<T> implements WrappedEdge {
+public abstract class AbstractWrappedEdge<T> implements WrappedEdge {
 
-	T edge;
+	private T delegate;
 
 	public AbstractWrappedEdge(T delegate) {
-		this.edge = delegate;
+		this.delegate = delegate;
 	}
 
-	@Override
-	public <T> T getId() {
-		return null;
-	}
-
-	@Override
-	public void remove() {
-
-	}
-
-	@Override
-	public String label() {
-		return null;
+	public T getDelegate() {
+		return delegate;
 	}
 
 }

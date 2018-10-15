@@ -8,4 +8,11 @@ public interface WrappedEdge extends WrappedElement {
 	 * @return
 	 */
 	String label();
+
+	WrappedVertex inV();
+
+	WrappedVertex outV();
+
+	// traversal()
+
 }
