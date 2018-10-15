@@ -1,6 +1,8 @@
 package com.gentics.diktyo.wrapper.element;
 
-public interface WrappedVertex extends WrappedElement {
+import com.gentics.diktyo.wrapper.traversal.WrappedTraversal;
+
+public interface WrappedVertex<V> extends WrappedElement<V> {
 
 	// traverse()
 
@@ -12,16 +14,16 @@ public interface WrappedVertex extends WrappedElement {
 
 	WrappedTraversal inE(String label);
 
-	void linkOut(WrappedVertex v, String label);
+	void linkOut(WrappedVertex<V> v, String label);
 
-	void linkIn(WrappedVertex v, String label);
+	void linkIn(WrappedVertex<V> v, String label);
 
-	void unlinkOut(WrappedVertex v, String label);
+	void unlinkOut(WrappedVertex<V> v, String label);
 
-	void unlinkIn(WrappedVertex v, String label);
+	void unlinkIn(WrappedVertex<V> v, String label);
 
-	void setLinkOut(WrappedVertex v, String label);
+	void setLinkOut(WrappedVertex<V> v, String label);
 
-	void setLinkIn(WrappedVertex v, String label);
+	void setLinkIn(WrappedVertex<V> v, String label);
 
 }

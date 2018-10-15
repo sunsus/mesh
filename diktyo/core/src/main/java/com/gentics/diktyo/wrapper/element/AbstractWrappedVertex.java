@@ -1,6 +1,6 @@
 package com.gentics.diktyo.wrapper.element;
 
-public abstract class AbstractWrappedVertex<T> implements WrappedVertex {
+public abstract class AbstractWrappedVertex<T> implements WrappedVertex<T> {
 
 	private T delegate;
 
@@ -8,7 +8,8 @@ public abstract class AbstractWrappedVertex<T> implements WrappedVertex {
 		this.delegate = delegate;
 	}
 
-	public T getDelegate() {
+	@Override
+	public T delegate() {
 		return delegate;
 	}
 
