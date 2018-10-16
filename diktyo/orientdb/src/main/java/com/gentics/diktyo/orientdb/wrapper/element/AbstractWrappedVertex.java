@@ -77,7 +77,7 @@ public abstract class AbstractWrappedVertex extends AbstractWrappedCoreVertex<Ve
 	}
 
 	@Override
-	public Object property(String key) {
+	public <T> T property(String key) {
 		return delegate().getProperty(key);
 	}
 

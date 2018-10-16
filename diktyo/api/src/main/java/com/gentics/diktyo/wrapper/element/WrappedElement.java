@@ -26,7 +26,7 @@ public interface WrappedElement<T> {
 	 * @param key
 	 * @return
 	 */
-	Object property(String key);
+	<T> T property(String key);
 
 	/**
 	 * Set the property.

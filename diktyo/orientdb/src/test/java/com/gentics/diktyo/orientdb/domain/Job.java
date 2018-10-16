@@ -5,4 +5,8 @@ import com.tinkerpop.blueprints.Vertex;
 
 public interface Job extends WrappedVertex<Vertex> {
 
+	String getName();
+
+	void setName(String name);
+
 }

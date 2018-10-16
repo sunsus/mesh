@@ -9,7 +9,6 @@ import com.gentics.diktyo.index.IndexManager;
 import com.gentics.diktyo.orientdb.wrapper.factory.WrapperFactory;
 import com.gentics.diktyo.tx.Tx;
 import com.gentics.diktyo.tx.TxAction;
-import com.gentics.diktyo.wrapper.element.WrappedVertex;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
 
@@ -59,12 +58,11 @@ public class DatabaseImpl implements Database<Vertex> {
 
 	@Override
 	public <T> T tx(TxAction<T> txHandler) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <R extends WrappedVertex<Vertex>> R createVertex(Class<? extends R> clazzOfR) {
+	public <R> R createVertex(Class<R> clazzOfR) {
 		Vertex vertex = factory.getNoTx().addVertex(null);
 		return WrapperFactory.frameVertex(vertex, clazzOfR);
 	}

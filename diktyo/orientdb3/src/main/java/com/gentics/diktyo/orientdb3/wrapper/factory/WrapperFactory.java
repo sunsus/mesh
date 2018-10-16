@@ -2,8 +2,8 @@ package com.gentics.diktyo.orientdb3.wrapper.factory;
 
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
+import com.gentics.diktyo.orientdb3.wrapper.element.AbstractWrappedVertex;
 import com.gentics.diktyo.wrapper.element.WrappedElement;
-import com.gentics.diktyo.wrapper.element.WrappedVertex;
 
 public final class WrapperFactory {
 
@@ -18,6 +18,9 @@ public final class WrapperFactory {
 	 * 
 	 */
 	public static <T, R extends WrappedElement<T>> R frameElement(T sourceElement, Class<R> clazzOfR) {
+		if (sourceElement == null) {
+			return null;
+		}
 		try {
 			R element = clazzOfR.newInstance();
 			element.init(sourceElement);
@@ -27,10 +30,17 @@ public final class WrapperFactory {
 		}
 	}
 
-	public static <R extends WrappedVertex<Vertex>> R frameVertex(Vertex vertex, Class<R> clazzOfR) {
+	public static <R> R frameVertex(Vertex vertex, Class<R> clazzOfR) {
+		if (vertex == null) {
+			return null;
+		}
 		try {
 			R element = clazzOfR.newInstance();
-			element.init(vertex);
+			if (element instanceof AbstractWrappedVertex) {
+				((AbstractWrappedVertex) element).init(vertex);
+			} else {
+				throw new RuntimeException("The specified class {" + clazzOfR + "} does not use {" + AbstractWrappedVertex.class + "}");
+			}
 			return element;
 		} catch (InstantiationException | IllegalAccessException e) {
 			throw new RuntimeException("Could not instantiate wrapper for class {" + clazzOfR.getName() + "}");
