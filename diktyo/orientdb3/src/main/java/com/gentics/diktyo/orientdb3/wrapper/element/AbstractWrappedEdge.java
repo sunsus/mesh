@@ -8,13 +8,19 @@ import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Property;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
-import com.gentics.diktyo.wrapper.element.AbstractWrappedEdge;
+import com.gentics.diktyo.orientdb3.wrapper.factory.WrapperFactory;
+import com.gentics.diktyo.wrapper.element.AbstractWrappedCoreEdge;
 import com.gentics.diktyo.wrapper.element.WrappedVertex;
 
-public class WrappedEdgeImpl extends AbstractWrappedEdge<Edge> {
+public abstract class AbstractWrappedEdge extends AbstractWrappedCoreEdge<Edge, Vertex> {
 
-	public WrappedEdgeImpl(Edge edge) {
+	public AbstractWrappedEdge(Edge edge) {
 		super(edge);
+	}
+	
+	@Override
+	public void init(Edge element) {
+		setDelegate(element);
 	}
 
 	@Override
@@ -23,13 +29,15 @@ public class WrappedEdgeImpl extends AbstractWrappedEdge<Edge> {
 	}
 
 	@Override
-	public WrappedVertex<Vertex> inV() {
-		return new WrappedVertexImpl(delegate().inVertex());
+	public <R extends WrappedVertex<Vertex>> R inV(Class<R> classOfR) {
+		Vertex v = delegate().inVertex();
+		return WrapperFactory.frameElement(v, classOfR);
 	}
 
 	@Override
-	public WrappedVertex<Vertex> outV() {
-		return new WrappedVertexImpl(delegate().outVertex());
+	public <R extends WrappedVertex<Vertex>>  R outV(Class<R> classOfR) {
+		Vertex v = delegate().outVertex();
+		return WrapperFactory.frameElement(v, classOfR);
 	}
 
 	@Override

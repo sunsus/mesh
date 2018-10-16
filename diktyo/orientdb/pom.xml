@@ -9,21 +9,31 @@
 		<version>0.25.1-SNAPSHOT</version>
 	</parent>
 
+	<properties>
+		<orientdb.version>2.2.37</orientdb.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.gentics.mesh</groupId>
 			<artifactId>mesh-diktyo-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
-			<groupId>com.syncleus.ferma</groupId>
-			<artifactId>ferma</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>net.bytebuddy</groupId>
-					<artifactId>byte-buddy</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>com.orientechnologies</groupId>
+			<artifactId>orientdb-core</artifactId>
+			<version>${orientdb.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.orientechnologies</groupId>
+			<artifactId>orientdb-graphdb</artifactId>
+			<version>${orientdb.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.orientechnologies</groupId>
+			<artifactId>orientdb-distributed</artifactId>
+			<version>${orientdb.version}</version>
 		</dependency>
 	</dependencies>
 

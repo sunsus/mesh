@@ -2,16 +2,21 @@ package com.gentics.diktyo.orientdb.wrapper.element;
 
 import java.util.Set;
 
-import com.gentics.diktyo.wrapper.element.AbstractWrappedEdge;
+import com.gentics.diktyo.wrapper.element.AbstractWrappedCoreEdge;
 import com.gentics.diktyo.wrapper.element.WrappedVertex;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 
-public class WrappedEdgeImpl extends AbstractWrappedEdge<Edge> {
+public class WrappedEdgeImpl extends AbstractWrappedCoreEdge<Edge, Vertex> {
 
 	public WrappedEdgeImpl(Edge edge) {
 		super(edge);
+	}
+
+	@Override
+	public void init(Edge element) {
+		setDelegate(element);
 	}
 
 	@Override
@@ -20,13 +25,13 @@ public class WrappedEdgeImpl extends AbstractWrappedEdge<Edge> {
 	}
 
 	@Override
-	public WrappedVertex<Vertex> inV() {
+	public <R extends WrappedVertex<Vertex>>  R inV(Class<R> classOfR) {
 		delegate().getVertex(Direction.IN);
 		return null;
 	}
 
 	@Override
-	public WrappedVertex<Vertex> outV() {
+	public <R extends WrappedVertex<Vertex>>  R outV(Class<R> classOfR) {
 		delegate().getVertex(Direction.OUT);
 		return null;
 	}

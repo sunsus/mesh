@@ -4,11 +4,12 @@ import java.util.Iterator;
 
 import com.gentics.diktyo.wrapper.traversal.AbstractWrappedTraversal;
 
-public class WrappedTraversalImpl extends AbstractWrappedTraversal {
+public class WrappedTraversalImpl<T> extends AbstractWrappedTraversal {
 
-	public WrappedTraversalImpl(Iterator<?> it) {
-		// TODO Auto-generated constructor stub
+	private Iterator<T> it;
+
+	public WrappedTraversalImpl(Iterator<T> it) {
+		this.it = it;
 	}
-
 
 }

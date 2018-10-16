@@ -12,6 +12,7 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 import com.gentics.diktyo.db.Database;
 import com.gentics.diktyo.db.DatabaseManager;
+import com.gentics.diktyo.db.DatabaseType;
 import com.orientechnologies.orient.core.db.ODatabasePool;
 import com.orientechnologies.orient.core.db.ODatabaseType;
 import com.orientechnologies.orient.core.db.OrientDB;
@@ -31,12 +32,14 @@ public class DatabaseManagerImpl implements DatabaseManager {
 	}
 
 	@Override
-	public Database open(String name) {
-		return dbProvider.get();
+	public Database open(String name, DatabaseType type) {
+		Database db = dbProvider.get();
+		db.open(name, type);
+		return db;
 	}
 
 	@Override
-	public void create(String name) {
+	public void create(String name, DatabaseType type) {
 		// https://github.com/orientechnologies/orientdb-gremlin/blob/master/driver/src/test/java/org/apache/tinkerpop/gremlin/orientdb/OrientGraphTest.java
 		try (OrientGraphFactory factory = new OrientGraphFactory("plocal:" + name)) {
 		}

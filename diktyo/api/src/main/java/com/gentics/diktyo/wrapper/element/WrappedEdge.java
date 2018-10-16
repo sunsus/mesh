@@ -1,6 +1,6 @@
 package com.gentics.diktyo.wrapper.element;
 
-public interface WrappedEdge<E> extends WrappedElement<E> {
+public interface WrappedEdge<E,V> extends WrappedElement<E> {
 
 	/**
 	 * Return the label of the edge.
@@ -11,14 +11,18 @@ public interface WrappedEdge<E> extends WrappedElement<E> {
 
 	/**
 	 * Return the in bound vertex.
+	 * 
+	 * @param classOfR
 	 * @return
 	 */
-	<V> WrappedVertex<V> inV();
+	<R extends WrappedVertex<V>> R inV(Class<R> classOfR);
 
 	/**
 	 * Return the out bound vertex.
+	 * 
+	 * @param classOfR
 	 * @return
 	 */
-	<V> WrappedVertex<V> outV();
+	<R extends WrappedVertex<V>> R outV(Class<R> classOfR);
 
 }

@@ -9,15 +9,19 @@ public interface DatabaseManager {
 	 * Open the database with the given name.
 	 * 
 	 * @param name
+	 * @param type
+	 * @return opened database
+	 * 
 	 */
-	Database open(String name);
+	Database open(String name, DatabaseType type);
 
 	/**
 	 * Create a new database with the given name.
 	 * 
 	 * @param name
+	 * @param type
 	 */
-	void create(String name);
+	void create(String name, DatabaseType type);
 
 	/**
 	 * Delete the database with the given name.

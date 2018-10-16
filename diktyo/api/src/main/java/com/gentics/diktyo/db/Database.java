@@ -7,12 +7,27 @@ import com.gentics.diktyo.tx.TxAction0;
 import com.gentics.diktyo.tx.TxAction1;
 import com.gentics.diktyo.tx.TxAction2;
 
-public interface Database extends AutoCloseable {
+public interface Database<V> extends AutoCloseable {
+
+	/**
+	 * Open the db.
+	 * 
+	 * @param name
+	 * @param type
+	 */
+	void open(String name, DatabaseType type);
 
 	/**
 	 * Close the db.
 	 */
 	void close();
+
+	/**
+	 * Check whether the db is open.
+	 * 
+	 * @return
+	 */
+	boolean isOpen();
 
 	/**
 	 * Return the index management.
@@ -70,4 +85,13 @@ public interface Database extends AutoCloseable {
 			return null;
 		});
 	}
+
+	/**
+	 * Create a new wrapped vertex and return it.
+	 * 
+	 * @param clazzOfR
+	 * @return
+	 */
+	<T> T createVertex(Class<T> clazzOfR);
+
 }

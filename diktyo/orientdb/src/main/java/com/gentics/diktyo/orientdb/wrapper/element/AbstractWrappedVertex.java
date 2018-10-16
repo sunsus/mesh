@@ -3,16 +3,17 @@ package com.gentics.diktyo.orientdb.wrapper.element;
 import java.util.Set;
 
 import com.gentics.diktyo.orientdb.wrapper.traversal.WrappedTraversalImpl;
-import com.gentics.diktyo.wrapper.element.AbstractWrappedVertex;
+import com.gentics.diktyo.wrapper.element.AbstractWrappedCoreVertex;
 import com.gentics.diktyo.wrapper.element.WrappedVertex;
 import com.gentics.diktyo.wrapper.traversal.WrappedTraversal;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Vertex;
 
-public class WrappedVertexImpl extends AbstractWrappedVertex<Vertex> {
+public abstract class AbstractWrappedVertex extends AbstractWrappedCoreVertex<Vertex> {
 
-	public WrappedVertexImpl(Vertex vertex) {
-		super(vertex);
+	@Override
+	public void init(Vertex element) {
+		setDelegate(element);
 	}
 
 	@Override

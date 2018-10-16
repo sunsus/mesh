@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import com.gentics.diktyo.db.Database;
 import com.gentics.diktyo.db.DatabaseManager;
+import com.gentics.diktyo.db.DatabaseType;
 
 @Singleton
 public class DatabaseManagerImpl implements DatabaseManager {
@@ -18,21 +19,21 @@ public class DatabaseManagerImpl implements DatabaseManager {
 	}
 
 	@Override
-	public Database open(String name) {
+	public Database open(String name, DatabaseType type) {
 		Database db = dbProvider.get();
-		// TODO open factory inside db
+		db.open(name, type);
 		return db;
 	}
 
 	@Override
-	public void create(String name) {
+	public void create(String name, DatabaseType type) {
 	}
 
 	@Override
 	public void delete(String name) {
 
 	}
-	
+
 	@Override
 	public boolean exists(String name) {
 		// TODO Auto-generated method stub

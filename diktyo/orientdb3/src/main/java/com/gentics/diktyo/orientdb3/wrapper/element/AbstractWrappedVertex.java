@@ -10,38 +10,39 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.VertexProperty;
 
 import com.gentics.diktyo.orientdb3.wrapper.traversal.WrappedTraversalImpl;
-import com.gentics.diktyo.wrapper.element.AbstractWrappedVertex;
+import com.gentics.diktyo.wrapper.element.AbstractWrappedCoreVertex;
 import com.gentics.diktyo.wrapper.element.WrappedVertex;
 import com.gentics.diktyo.wrapper.traversal.WrappedTraversal;
 
-public class WrappedVertexImpl extends AbstractWrappedVertex<Vertex> {
+public class AbstractWrappedVertex extends AbstractWrappedCoreVertex<Vertex> {
 
-	public WrappedVertexImpl(Vertex vertex) {
-		super(vertex);
+	@Override
+	public void init(Vertex element) {
+		setDelegate(element);
 	}
 
 	@Override
 	public WrappedTraversal out(String label) {
 		Iterator<Vertex> it = delegate().vertices(Direction.OUT, label);
-		return new WrappedTraversalImpl(it);
+		return new WrappedTraversalImpl<Vertex>(it);
 	}
 
 	@Override
 	public WrappedTraversal in(String label) {
 		Iterator<Vertex> it = delegate().vertices(Direction.IN, label);
-		return new WrappedTraversalImpl(it);
+		return new WrappedTraversalImpl<Vertex>(it);
 	}
 
 	@Override
 	public WrappedTraversal outE(String label) {
 		Iterator<Edge> it = delegate().edges(Direction.OUT, label);
-		return new WrappedTraversalImpl(it);
+		return new WrappedTraversalImpl<Edge>(it);
 	}
 
 	@Override
 	public WrappedTraversal inE(String label) {
 		Iterator<Edge> it = delegate().edges(Direction.IN, label);
-		return new WrappedTraversalImpl(it);
+		return new WrappedTraversalImpl<Edge>(it);
 	}
 
 	@Override

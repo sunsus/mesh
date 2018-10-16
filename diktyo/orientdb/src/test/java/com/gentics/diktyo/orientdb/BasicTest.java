@@ -1,5 +1,7 @@
 package com.gentics.diktyo.orientdb;
 
+import static com.gentics.diktyo.db.DatabaseType.MEMORY;
+
 import org.junit.Test;
 
 import com.gentics.diktyo.Diktyo;
@@ -13,8 +15,8 @@ public class BasicTest {
 	@Test
 	public void testBasics() {
 		Diktyo diktyo = Diktyo.diktyo();
-		diktyo.db().create("test");
-		Database db = diktyo.db().open("test");
+		diktyo.db().create("test", MEMORY);
+		Database db = diktyo.db().open("test", MEMORY);
 		db.index().list();
 		db.close();
 	}

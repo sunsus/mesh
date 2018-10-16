@@ -50,4 +50,11 @@ public interface WrappedElement<T> {
 	 */
 	Set<String> properties();
 
+	/**
+	 * Initialize the wrapper.
+	 * 
+	 * @param element
+	 */
+	void init(T element);
+
 }
