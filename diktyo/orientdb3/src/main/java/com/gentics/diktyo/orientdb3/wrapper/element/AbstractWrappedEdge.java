@@ -13,10 +13,6 @@ import com.gentics.diktyo.wrapper.element.AbstractWrappedCoreEdge;
 
 public abstract class AbstractWrappedEdge extends AbstractWrappedCoreEdge<Edge, Vertex> {
 
-	public AbstractWrappedEdge(Edge edge) {
-		super(edge);
-	}
-	
 	@Override
 	public void init(Edge element) {
 		setDelegate(element);
@@ -34,7 +30,7 @@ public abstract class AbstractWrappedEdge extends AbstractWrappedCoreEdge<Edge, 
 	}
 
 	@Override
-	public <R>  R outV(Class<R> classOfR) {
+	public <R> R outV(Class<R> classOfR) {
 		Vertex v = delegate().outVertex();
 		return WrapperFactory.frameElement(v, classOfR);
 	}

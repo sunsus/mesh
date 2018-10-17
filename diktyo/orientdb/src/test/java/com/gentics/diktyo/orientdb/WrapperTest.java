@@ -35,6 +35,10 @@ public class WrapperTest {
 				Job foundJob = person.getJob();
 				assertNotNull("The previously set job could not be found.", foundJob);
 				assertEquals("Software Developer", foundJob.getName());
+
+				// Refresh the job name index.
+				job.index().get("name").refresh();
+				//job.index().get("name").traverse();
 			}
 		}
 	}

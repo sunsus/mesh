@@ -2,9 +2,13 @@ package com.gentics.diktyo.wrapper.element;
 
 import java.util.Set;
 
+import com.gentics.diktyo.index.IndexManager;
+
 public interface WrappedElement<T> {
 
-	// JsonObject toJson();
+	default IndexManager index() {
+		return null;
+	}
 
 	T delegate();
 
@@ -57,4 +61,5 @@ public interface WrappedElement<T> {
 	 */
 	void init(T element);
 
+	// JsonObject toJson();
 }

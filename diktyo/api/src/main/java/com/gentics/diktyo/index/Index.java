@@ -9,4 +9,14 @@ public interface Index {
 	 */
 	String name();
 
+	/**
+	 * Refresh the index.
+	 */
+	void refresh();
+
+	/**
+	 * Remove the index.
+	 */
+	void remove();
+
 }

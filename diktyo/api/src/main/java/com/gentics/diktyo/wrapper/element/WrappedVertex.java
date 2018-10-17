@@ -5,7 +5,7 @@ import com.gentics.diktyo.wrapper.traversal.WrappedTraversal;
 public interface WrappedVertex<V, E> extends WrappedElement<V> {
 
 	// traverse()
-
+	
 	WrappedTraversal<V> out(String label);
 
 	WrappedTraversal<V> in(String label);

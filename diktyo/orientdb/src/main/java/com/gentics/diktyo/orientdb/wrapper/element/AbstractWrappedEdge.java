@@ -12,10 +12,6 @@ import com.tinkerpop.blueprints.Vertex;
 
 public class AbstractWrappedEdge extends AbstractWrappedCoreEdge<Edge, Vertex> {
 
-	public AbstractWrappedEdge(Edge delegate) {
-		super(delegate);
-	}
-
 	@Override
 	public void init(Edge element) {
 		setDelegate(element);
