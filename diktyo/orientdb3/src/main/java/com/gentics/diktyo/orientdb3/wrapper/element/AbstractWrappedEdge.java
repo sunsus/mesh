@@ -10,7 +10,6 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 import com.gentics.diktyo.orientdb3.wrapper.factory.WrapperFactory;
 import com.gentics.diktyo.wrapper.element.AbstractWrappedCoreEdge;
-import com.gentics.diktyo.wrapper.element.WrappedVertex;
 
 public abstract class AbstractWrappedEdge extends AbstractWrappedCoreEdge<Edge, Vertex> {
 
@@ -29,13 +28,13 @@ public abstract class AbstractWrappedEdge extends AbstractWrappedCoreEdge<Edge, 
 	}
 
 	@Override
-	public <R extends WrappedVertex<Vertex>> R inV(Class<R> classOfR) {
+	public <R> R inV(Class<R> classOfR) {
 		Vertex v = delegate().inVertex();
 		return WrapperFactory.frameElement(v, classOfR);
 	}
 
 	@Override
-	public <R extends WrappedVertex<Vertex>>  R outV(Class<R> classOfR) {
+	public <R>  R outV(Class<R> classOfR) {
 		Vertex v = delegate().outVertex();
 		return WrapperFactory.frameElement(v, classOfR);
 	}

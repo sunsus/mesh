@@ -10,6 +10,8 @@ import com.gentics.diktyo.Diktyo;
 import com.gentics.diktyo.db.Database;
 import com.gentics.diktyo.orientdb.domain.Job;
 import com.gentics.diktyo.orientdb.domain.JobImpl;
+import com.gentics.diktyo.orientdb.domain.Person;
+import com.gentics.diktyo.orientdb.domain.PersonImpl;
 import com.gentics.diktyo.tx.Tx;
 
 public class WrapperTest {
@@ -24,6 +26,15 @@ public class WrapperTest {
 				assertNotNull(job);
 				job.setName("Software Developer");
 				assertEquals("Software Developer", job.getName());
+
+				Person person = db.createVertex(PersonImpl.class);
+				person.setName("Johannes");
+				assertEquals("Johannes", person.getName());
+
+				person.setJob(job);
+				Job foundJob = person.getJob();
+				assertNotNull("The previously set job could not be found.", foundJob);
+				assertEquals("Software Developer", foundJob.getName());
 			}
 		}
 	}

@@ -15,7 +15,7 @@ public interface WrappedEdge<E,V> extends WrappedElement<E> {
 	 * @param classOfR
 	 * @return
 	 */
-	<R extends WrappedVertex<V>> R inV(Class<R> classOfR);
+	<R> R inV(Class<R> classOfR);
 
 	/**
 	 * Return the out bound vertex.
@@ -23,6 +23,6 @@ public interface WrappedEdge<E,V> extends WrappedElement<E> {
 	 * @param classOfR
 	 * @return
 	 */
-	<R extends WrappedVertex<V>> R outV(Class<R> classOfR);
+	<R> R outV(Class<R> classOfR);
 
 }

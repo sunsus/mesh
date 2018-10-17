@@ -14,7 +14,7 @@ import com.gentics.diktyo.wrapper.element.AbstractWrappedCoreVertex;
 import com.gentics.diktyo.wrapper.element.WrappedVertex;
 import com.gentics.diktyo.wrapper.traversal.WrappedTraversal;
 
-public class AbstractWrappedVertex extends AbstractWrappedCoreVertex<Vertex> {
+public class AbstractWrappedVertex extends AbstractWrappedCoreVertex<Vertex, Edge> {
 
 	@Override
 	public void init(Vertex element) {
@@ -22,25 +22,25 @@ public class AbstractWrappedVertex extends AbstractWrappedCoreVertex<Vertex> {
 	}
 
 	@Override
-	public WrappedTraversal out(String label) {
+	public WrappedTraversal<Vertex> out(String label) {
 		Iterator<Vertex> it = delegate().vertices(Direction.OUT, label);
 		return new WrappedTraversalImpl<Vertex>(it);
 	}
 
 	@Override
-	public WrappedTraversal in(String label) {
+	public WrappedTraversal<Vertex> in(String label) {
 		Iterator<Vertex> it = delegate().vertices(Direction.IN, label);
 		return new WrappedTraversalImpl<Vertex>(it);
 	}
 
 	@Override
-	public WrappedTraversal outE(String label) {
+	public WrappedTraversal<Edge> outE(String label) {
 		Iterator<Edge> it = delegate().edges(Direction.OUT, label);
 		return new WrappedTraversalImpl<Edge>(it);
 	}
 
 	@Override
-	public WrappedTraversal inE(String label) {
+	public WrappedTraversal<Edge> inE(String label) {
 		Iterator<Edge> it = delegate().edges(Direction.IN, label);
 		return new WrappedTraversalImpl<Edge>(it);
 	}
@@ -56,32 +56,32 @@ public class AbstractWrappedVertex extends AbstractWrappedCoreVertex<Vertex> {
 	}
 
 	@Override
-	public void linkOut(WrappedVertex<Vertex> v, String label) {
+	public void linkOut(WrappedVertex<Vertex, Edge> v, String label) {
 		delegate().addEdge(label, v.delegate());
 	}
 
 	@Override
-	public void linkIn(WrappedVertex<Vertex> v, String label) {
+	public void linkIn(WrappedVertex<Vertex, Edge> v, String label) {
 		v.linkOut(this, label);
 	}
 
 	@Override
-	public void unlinkOut(WrappedVertex<Vertex> v, String label) {
+	public void unlinkOut(WrappedVertex<Vertex, Edge> v, String label) {
 		delegate().edges(Direction.OUT, label);
 	}
 
 	@Override
-	public void unlinkIn(WrappedVertex<Vertex> v, String label) {
+	public void unlinkIn(WrappedVertex<Vertex, Edge> v, String label) {
 		delegate().edges(Direction.IN, label);
 	}
 
 	@Override
-	public void setLinkOut(WrappedVertex<Vertex> v, String label) {
+	public void setLinkOut(WrappedVertex<Vertex, Edge> v, String label) {
 		delegate().addEdge(label, v.delegate());
 	}
 
 	@Override
-	public void setLinkIn(WrappedVertex<Vertex> v, String label) {
+	public void setLinkIn(WrappedVertex<Vertex, Edge> v, String label) {
 		v.delegate().addEdge(label, delegate());
 	}
 

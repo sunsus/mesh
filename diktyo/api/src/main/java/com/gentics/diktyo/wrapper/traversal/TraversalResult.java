@@ -5,6 +5,11 @@ import java.util.stream.Stream;
 
 import com.gentics.diktyo.wrapper.element.WrappedElement;
 
+/**
+ * Result methods of a traversal
+ * 
+ * @param <T>
+ */
 public interface TraversalResult<T> {
 
 	/**
@@ -21,7 +26,9 @@ public interface TraversalResult<T> {
 	 * @param clazzOfR
 	 * @return
 	 */
-	<R extends WrappedElement<T>> Iterable<R> iterable(Class<R> clazzOfR);
+	default <R extends WrappedElement<T>> Iterable<R> iterable(Class<R> clazzOfR) {
+		return () -> stream(clazzOfR).iterator();
+	}
 
 	/**
 	 * Return an iterator of elements.
@@ -29,7 +36,9 @@ public interface TraversalResult<T> {
 	 * @param clazzOfR
 	 * @return
 	 */
-	<R extends WrappedElement<T>> Iterator<R> iterator(Class<R> clazzOfR);
+	default <R extends WrappedElement<T>> Iterator<R> iterator(Class<R> clazzOfR) {
+		return stream(clazzOfR).iterator();
+	}
 
 	/**
 	 * Return the first found element.
@@ -37,5 +46,5 @@ public interface TraversalResult<T> {
 	 * @param clazzOfR
 	 * @return
 	 */
-	<R extends WrappedElement<T>> R next(Class<R> clazzOfR);
+	<R> R next(Class<R> clazzOfR);
 }

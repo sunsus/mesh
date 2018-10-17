@@ -13,7 +13,6 @@ import com.gentics.diktyo.orientdb3.tx.TxImpl;
 import com.gentics.diktyo.orientdb3.wrapper.factory.WrapperFactory;
 import com.gentics.diktyo.tx.Tx;
 import com.gentics.diktyo.tx.TxAction;
-import com.gentics.diktyo.wrapper.element.WrappedVertex;
 import com.orientechnologies.orient.core.db.ODatabaseType;
 import com.orientechnologies.orient.core.db.OrientDB;
 import com.orientechnologies.orient.core.db.OrientDBConfig;

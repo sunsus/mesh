@@ -1,15 +1,15 @@
 package com.gentics.diktyo.wrapper.element;
 
-public abstract class AbstractWrappedCoreVertex<T> implements WrappedVertex<T> {
+public abstract class AbstractWrappedCoreVertex<V, E> implements WrappedVertex<V, E> {
 
-	private T delegate;
+	private V delegate;
 
 	@Override
-	public T delegate() {
+	public V delegate() {
 		return delegate;
 	}
 
-	public void setDelegate(T delegate) {
+	public void setDelegate(V delegate) {
 		this.delegate = delegate;
 	}
 
