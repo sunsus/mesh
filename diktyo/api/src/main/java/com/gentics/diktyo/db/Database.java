@@ -1,13 +1,19 @@
 package com.gentics.diktyo.db;
 
+import java.util.function.Function;
+
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
+
 import com.gentics.diktyo.index.IndexManager;
 import com.gentics.diktyo.tx.Tx;
 import com.gentics.diktyo.tx.TxAction;
 import com.gentics.diktyo.tx.TxAction0;
 import com.gentics.diktyo.tx.TxAction1;
 import com.gentics.diktyo.tx.TxAction2;
+import com.gentics.diktyo.wrapper.traversal.WrappedTraversal;
 
-public interface Database<V> extends AutoCloseable {
+public interface Database extends AutoCloseable {
 
 	/**
 	 * Open the db.
@@ -93,5 +99,7 @@ public interface Database<V> extends AutoCloseable {
 	 * @return
 	 */
 	<T> T createVertex(Class<T> clazzOfR);
+
+	<T extends WrappedTraversal<?>> T traverse(Function<GraphTraversalSource, GraphTraversal<?, ?>> traverser);
 
 }

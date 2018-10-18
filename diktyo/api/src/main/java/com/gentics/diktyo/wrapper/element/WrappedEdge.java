@@ -1,6 +1,8 @@
 package com.gentics.diktyo.wrapper.element;
 
-public interface WrappedEdge<E,V> extends WrappedElement<E> {
+import org.apache.tinkerpop.gremlin.structure.Edge;
+
+public interface WrappedEdge extends WrappedElement<Edge> {
 
 	/**
 	 * Return the label of the edge.

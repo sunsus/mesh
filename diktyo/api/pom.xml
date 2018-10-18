@@ -9,4 +9,12 @@
 		<version>0.25.1-SNAPSHOT</version>
 	</parent>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.tinkerpop</groupId>
+			<artifactId>gremlin-core</artifactId>
+			<version>${tinkerpop.version}</version>
+		</dependency>
+	</dependencies>
+
 </project>

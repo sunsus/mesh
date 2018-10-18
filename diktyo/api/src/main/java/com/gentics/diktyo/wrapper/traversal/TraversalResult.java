@@ -3,14 +3,16 @@ package com.gentics.diktyo.wrapper.traversal;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
+import org.apache.tinkerpop.gremlin.structure.Element;
+
 import com.gentics.diktyo.wrapper.element.WrappedElement;
 
 /**
- * Result methods of a traversal
+ * Result methods of a traversal.
  * 
  * @param <T>
  */
-public interface TraversalResult<T> {
+public interface TraversalResult<T extends Element> {
 
 	/**
 	 * Return a stream of elements.

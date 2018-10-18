@@ -1,6 +1,6 @@
-package com.gentics.diktyo.orientdb.domain;
+package com.gentics.diktyo.orientdb3.domain;
 
-import com.gentics.diktyo.orientdb.wrapper.element.AbstractWrappedVertex;
+import com.gentics.diktyo.orientdb3.wrapper.element.AbstractWrappedVertex;
 
 public class JobImpl extends AbstractWrappedVertex implements Job {
 

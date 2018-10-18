@@ -4,13 +4,13 @@ import javax.inject.Inject;
 
 import org.apache.tinkerpop.gremlin.orientdb.OrientGraphFactory;
 
-import com.gentics.diktyo.server.Server;
+import com.gentics.diktyo.server.AbstractServer;
 import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.db.ODatabaseType;
 import com.orientechnologies.orient.core.db.OrientDB;
 import com.orientechnologies.orient.server.OServer;
 
-public class ServerImpl implements Server {
+public class ServerImpl extends AbstractServer {
 
 	@Inject
 	public ServerImpl() {

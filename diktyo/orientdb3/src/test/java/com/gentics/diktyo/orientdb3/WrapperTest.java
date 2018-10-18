@@ -1,4 +1,4 @@
-package com.gentics.diktyo.orientdb;
+package com.gentics.diktyo.orientdb3;
 
 import static com.gentics.diktyo.db.DatabaseType.MEMORY;
 import static org.junit.Assert.assertEquals;
@@ -8,11 +8,12 @@ import org.junit.Test;
 
 import com.gentics.diktyo.Diktyo;
 import com.gentics.diktyo.db.Database;
-import com.gentics.diktyo.orientdb.domain.Job;
-import com.gentics.diktyo.orientdb.domain.JobImpl;
-import com.gentics.diktyo.orientdb.domain.Person;
-import com.gentics.diktyo.orientdb.domain.PersonImpl;
+import com.gentics.diktyo.orientdb3.domain.Job;
+import com.gentics.diktyo.orientdb3.domain.JobImpl;
+import com.gentics.diktyo.orientdb3.domain.Person;
+import com.gentics.diktyo.orientdb3.domain.PersonImpl;
 import com.gentics.diktyo.tx.Tx;
+import com.gentics.diktyo.wrapper.traversal.WrappedTraversal;
 
 public class WrapperTest {
 
@@ -20,7 +21,7 @@ public class WrapperTest {
 	public void testWrapperAPI() {
 		Diktyo diktyo = Diktyo.diktyo();
 		diktyo.db().create("test", MEMORY);
-		try (Database<?> db = diktyo.db().open("test", MEMORY)) {
+		try (Database db = diktyo.db().open("test", MEMORY)) {
 			try (Tx tx = db.tx()) {
 				Job job = db.createVertex(JobImpl.class);
 				assertNotNull(job);
@@ -37,9 +38,16 @@ public class WrapperTest {
 				assertEquals("Software Developer", foundJob.getName());
 
 				// Refresh the job name index.
-				job.index().get("name").refresh();
-				//job.index().get("name").traverse();
+				// job.index().get("name").refresh();
+				// job.index().get("name").traverse();
+				tx.rollback();
 			}
+
+			try (Tx tx = db.tx()) {
+				WrappedTraversal<Job> jobResult = db.traverse(g -> g.V().hasLabel("Job")).wrap(JobImpl.class);
+				//db.index().exists("abc");
+			}
+
 		}
 	}
 }

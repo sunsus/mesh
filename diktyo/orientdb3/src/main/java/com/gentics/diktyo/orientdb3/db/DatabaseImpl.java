@@ -1,23 +1,28 @@
 package com.gentics.diktyo.orientdb3.db;
 
+import java.util.function.Function;
+
 import javax.inject.Inject;
 import javax.inject.Provider;
 
 import org.apache.tinkerpop.gremlin.orientdb.OrientGraphFactory;
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
-import com.gentics.diktyo.db.Database;
+import com.gentics.diktyo.db.AbstractDatabase;
 import com.gentics.diktyo.db.DatabaseType;
 import com.gentics.diktyo.index.IndexManager;
 import com.gentics.diktyo.orientdb3.tx.TxImpl;
 import com.gentics.diktyo.orientdb3.wrapper.factory.WrapperFactory;
 import com.gentics.diktyo.tx.Tx;
 import com.gentics.diktyo.tx.TxAction;
+import com.gentics.diktyo.wrapper.traversal.WrappedTraversal;
 import com.orientechnologies.orient.core.db.ODatabaseType;
 import com.orientechnologies.orient.core.db.OrientDB;
 import com.orientechnologies.orient.core.db.OrientDBConfig;
 
-public class DatabaseImpl implements Database<Vertex> {
+public class DatabaseImpl extends AbstractDatabase {
 
 	private final IndexManager indexManager;
 
@@ -69,6 +74,12 @@ public class DatabaseImpl implements Database<Vertex> {
 	public <T> T createVertex(Class<T> clazzOfR) {
 		Vertex vertex = graph.getNoTx().addVertex();
 		return WrapperFactory.frameVertex(vertex, clazzOfR);
+	}
+
+	@Override
+	public <T extends WrappedTraversal<?>> T traverse(Function<GraphTraversalSource, GraphTraversal<?, ?>> traverser) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

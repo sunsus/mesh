@@ -21,7 +21,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.gentics.mesh</groupId>
-			<artifactId>mesh-diktyo-orientdb</artifactId>
+			<artifactId>mesh-diktyo-orientdb3</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

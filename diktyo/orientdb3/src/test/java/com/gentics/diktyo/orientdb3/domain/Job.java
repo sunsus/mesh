@@ -1,10 +1,8 @@
-package com.gentics.diktyo.orientdb.domain;
+package com.gentics.diktyo.orientdb3.domain;
 
 import com.gentics.diktyo.wrapper.element.WrappedVertex;
-import com.tinkerpop.blueprints.Edge;
-import com.tinkerpop.blueprints.Vertex;
 
-public interface Job extends WrappedVertex<Vertex, Edge> {
+public interface Job extends WrappedVertex {
 
 	/**
 	 * Return the job name.

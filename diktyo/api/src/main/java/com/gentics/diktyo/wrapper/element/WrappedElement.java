@@ -2,9 +2,11 @@ package com.gentics.diktyo.wrapper.element;
 
 import java.util.Set;
 
+import org.apache.tinkerpop.gremlin.structure.Element;
+
 import com.gentics.diktyo.index.IndexManager;
 
-public interface WrappedElement<T> {
+public interface WrappedElement<T extends Element> {
 
 	default IndexManager index() {
 		return null;
@@ -30,7 +32,7 @@ public interface WrappedElement<T> {
 	 * @param key
 	 * @return
 	 */
-	<T> T property(String key);
+	<R> R property(String key);
 
 	/**
 	 * Set the property.

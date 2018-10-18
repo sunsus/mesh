@@ -1,6 +1,8 @@
-package com.gentics.diktyo.orientdb.domain;
+package com.gentics.diktyo.orientdb3.domain;
 
-public interface Person {
+import com.gentics.diktyo.wrapper.element.WrappedVertex;
+
+public interface Person extends WrappedVertex {
 
 	/**
 	 * Return the name of the person.
