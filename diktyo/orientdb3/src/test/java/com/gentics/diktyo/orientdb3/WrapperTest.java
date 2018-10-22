@@ -13,7 +13,6 @@ import com.gentics.diktyo.orientdb3.domain.JobImpl;
 import com.gentics.diktyo.orientdb3.domain.Person;
 import com.gentics.diktyo.orientdb3.domain.PersonImpl;
 import com.gentics.diktyo.tx.Tx;
-import com.gentics.diktyo.wrapper.traversal.WrappedTraversal;
 
 public class WrapperTest {
 
@@ -44,7 +43,7 @@ public class WrapperTest {
 			}
 
 			try (Tx tx = db.tx()) {
-				WrappedTraversal<Job> jobResult = db.traverse(g -> g.V().hasLabel("Job")).wrap(JobImpl.class);
+				//WrappedTraversal<Job> jobResult = db.traverse(g -> g.V().hasLabel("Job")).wrap(JobImpl.class);
 				//db.index().exists("abc");
 			}
 
