@@ -1,6 +1,7 @@
 package com.gentics.mesh.core.branch;
 
 import static com.gentics.mesh.assertj.MeshAssertions.assertThat;
+import static com.gentics.mesh.core.data.relationship.GraphPermission.CREATE_PERM;
 import static com.gentics.mesh.core.data.relationship.GraphPermission.READ_PERM;
 import static com.gentics.mesh.core.data.relationship.GraphPermission.UPDATE_PERM;
 import static com.gentics.mesh.core.rest.admin.migration.MigrationStatus.COMPLETED;
@@ -201,7 +202,7 @@ public class BranchEndpointTest extends AbstractMeshTest implements BasicRestTes
 		}
 		BranchCreateRequest request = new BranchCreateRequest();
 		request.setName(branchName);
-		call(() -> client().createBranch(PROJECT_NAME, request), FORBIDDEN, "error_missing_perm", projectUuid() + "/" + PROJECT_NAME);
+		call(() -> client().createBranch(PROJECT_NAME, request), FORBIDDEN, "error_missing_perm", projectUuid() + "/" + PROJECT_NAME, CREATE_PERM.getRestPerm().getName());
 	}
 
 	@Test
@@ -439,7 +440,7 @@ public class BranchEndpointTest extends AbstractMeshTest implements BasicRestTes
 		BranchCreateRequest request = new BranchCreateRequest();
 		request.setName("New Branch");
 		request.setBaseBranch(new BranchReference().setUuid(latestUuid));
-		call(() -> client().createBranch(PROJECT_NAME, request), FORBIDDEN, "error_missing_perm", latestUuid);
+		call(() -> client().createBranch(PROJECT_NAME, request), FORBIDDEN, "error_missing_perm", latestUuid, CREATE_PERM.getRestPerm().getName());
 	}
 
 	@Test
@@ -510,7 +511,7 @@ public class BranchEndpointTest extends AbstractMeshTest implements BasicRestTes
 			role().revokePermissions(project().getInitialBranch(), READ_PERM);
 			tx.success();
 		}
-		call(() -> client().findBranchByUuid(PROJECT_NAME, initialBranchUuid()), FORBIDDEN, "error_missing_perm", initialBranchUuid());
+		call(() -> client().findBranchByUuid(PROJECT_NAME, initialBranchUuid()), FORBIDDEN, "error_missing_perm", initialBranchUuid(), READ_PERM.getRestPerm().getName());
 	}
 
 	@Test
@@ -621,7 +622,7 @@ public class BranchEndpointTest extends AbstractMeshTest implements BasicRestTes
 		}
 		BranchUpdateRequest request = new BranchUpdateRequest();
 		// request.setActive(false);
-		call(() -> client().updateBranch(PROJECT_NAME, initialBranchUuid(), request), FORBIDDEN, "error_missing_perm", initialBranchUuid());
+		call(() -> client().updateBranch(PROJECT_NAME, initialBranchUuid(), request), FORBIDDEN, "error_missing_perm", initialBranchUuid(), UPDATE_PERM.getRestPerm().getName());
 	}
 
 	@Test
@@ -699,7 +700,7 @@ public class BranchEndpointTest extends AbstractMeshTest implements BasicRestTes
 			role().revokePermissions(project().getInitialBranch(), UPDATE_PERM);
 			tx.success();
 		}
-		call(() -> client().setLatestBranch(PROJECT_NAME, initialBranchUuid()), FORBIDDEN, "error_missing_perm", initialBranchUuid());
+		call(() -> client().setLatestBranch(PROJECT_NAME, initialBranchUuid()), FORBIDDEN, "error_missing_perm", initialBranchUuid(), UPDATE_PERM.getRestPerm().getName());
 	}
 
 	@Test
@@ -901,7 +902,7 @@ public class BranchEndpointTest extends AbstractMeshTest implements BasicRestTes
 		}
 
 		call(() -> client().assignBranchSchemaVersions(PROJECT_NAME, initialBranchUuid(), new SchemaReferenceImpl().setName("content").setVersion(
-			"1.0")), FORBIDDEN, "error_missing_perm", initialBranchUuid());
+			"1.0")), FORBIDDEN, "error_missing_perm", initialBranchUuid(), UPDATE_PERM.getRestPerm().getName());
 	}
 
 	@Test
@@ -1081,7 +1082,7 @@ public class BranchEndpointTest extends AbstractMeshTest implements BasicRestTes
 			tx.success();
 		}
 		call(() -> client().assignBranchMicroschemaVersions(PROJECT_NAME, initialBranchUuid(), new MicroschemaReferenceImpl().setName("vcard")
-			.setVersion("1.0")), FORBIDDEN, "error_missing_perm", initialBranchUuid());
+			.setVersion("1.0")), FORBIDDEN, "error_missing_perm", initialBranchUuid(), UPDATE_PERM.getRestPerm().getName());
 	}
 
 	@Test
