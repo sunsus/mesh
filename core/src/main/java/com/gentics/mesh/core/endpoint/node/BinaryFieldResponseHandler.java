@@ -14,6 +14,8 @@ import com.gentics.mesh.core.data.binary.Binary;
 import com.gentics.mesh.core.data.node.field.BinaryGraphField;
 import com.gentics.mesh.core.image.spi.ImageManipulator;
 import com.gentics.mesh.core.rest.node.field.image.FocalPoint;
+import com.gentics.mesh.handler.RangeRequestHandler;
+import com.gentics.mesh.handler.impl.RangeRequestHandlerImpl;
 import com.gentics.mesh.http.MeshHeaders;
 import com.gentics.mesh.parameter.ImageManipulationParameters;
 import com.gentics.mesh.storage.BinaryStorage;
@@ -109,8 +111,8 @@ public class BinaryFieldResponseHandler {
 
 		String localPath = storage.getLocalPath(binary.getUuid());
 		if (localPath != null) {
-			response.putHeader(HttpHeaders.CONTENT_LENGTH, contentLength);
-			response.sendFile(localPath);
+			RangeRequestHandler handler = new RangeRequestHandlerImpl();
+			handler.handle(rc, localPath);
 		} else {
 			response.putHeader(HttpHeaders.CONTENT_LENGTH, contentLength);
 			binary.getStream().subscribe(response::write, rc::fail, response::end);
