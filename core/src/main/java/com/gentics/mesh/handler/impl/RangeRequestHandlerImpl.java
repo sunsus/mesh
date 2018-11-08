@@ -27,7 +27,6 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.http.HttpVersion;
-import io.vertx.core.http.impl.MimeMapping;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Http2PushMapping;
@@ -64,14 +63,11 @@ public class RangeRequestHandlerImpl implements RangeRequestHandler {
 	private long nextAvgCheck = NUM_SERVES_TUNING_FS_ACCESS;
 
 	@Override
-	public void handle(RoutingContext context, String localPath) {
-		sendStatic(context, localPath);
-		// HttpServerResponse response = rc.response();
-		// response.putHeader(HttpHeaders.CONTENT_LENGTH, contentLength);
-		// response.sendFile(localPath);
+	public void handle(RoutingContext context, String localPath, String contentType) {
+		sendStatic(context, localPath, contentType);
 	}
 
-	private void sendStatic(RoutingContext context, String path) {
+	private void sendStatic(RoutingContext context, String path, String contentType) {
 
 		String file = null;
 
@@ -116,7 +112,7 @@ public class RangeRequestHandlerImpl implements RangeRequestHandler {
 						context.next();
 					} else {
 						propsCache().put(path, new CacheEntry(fprops, System.currentTimeMillis()));
-						sendFile(context, sfile, fprops);
+						sendFile(context, sfile, contentType, fprops);
 					}
 				} else {
 					context.fail(res.cause());
@@ -132,7 +128,7 @@ public class RangeRequestHandlerImpl implements RangeRequestHandler {
 		return propsCache;
 	}
 
-	private void sendFile(RoutingContext context, String file, FileProps fileProps) {
+	private void sendFile(RoutingContext context, String file, String contentType, FileProps fileProps) {
 		HttpServerRequest request = context.request();
 
 		Long offset = null;
@@ -183,98 +179,91 @@ public class RangeRequestHandlerImpl implements RangeRequestHandler {
 
 		if (request.method() == HttpMethod.HEAD) {
 			request.response().end();
+			return;
+		}
+
+		if (offset != null) {
+			// must return content range
+			headers.set("Content-Range", "bytes " + offset + "-" + end + "/" + fileProps.size());
+			// return a partial response
+			request.response().setStatusCode(PARTIAL_CONTENT.code());
+
+			final Long finalOffset = offset;
+			final Long finalEnd = end;
+			if (contentType != null) {
+				if (contentType.startsWith("text")) {
+					request.response().putHeader("Content-Type", contentType + ";charset=" + defaultContentEncoding);
+				} else {
+					request.response().putHeader("Content-Type", contentType);
+				}
+			}
+
+			request.response().sendFile(file, finalOffset, finalEnd + 1);
 		} else {
-			if (offset != null) {
-				// must return content range
-				headers.set("Content-Range", "bytes " + offset + "-" + end + "/" + fileProps.size());
-				// return a partial response
-				request.response().setStatusCode(PARTIAL_CONTENT.code());
-
-				final Long finalOffset = offset;
-				final Long finalEnd = end;
-				// guess content type
-				String contentType = MimeMapping.getMimeTypeForFilename(file);
-				if (contentType != null) {
-					if (contentType.startsWith("text")) {
-						request.response().putHeader("Content-Type", contentType + ";charset=" + defaultContentEncoding);
-					} else {
-						request.response().putHeader("Content-Type", contentType);
-					}
+			if (contentType != null) {
+				if (contentType.startsWith("text")) {
+					request.response().putHeader("Content-Type", contentType + ";charset=" + defaultContentEncoding);
+				} else {
+					request.response().putHeader("Content-Type", contentType);
 				}
+			}
 
-				request.response().sendFile(file, finalOffset, finalEnd + 1, res2 -> {
-					if (res2.failed()) {
-						context.fail(res2.cause());
-					}
-				});
-			} else {
-				// guess content type
-				String contentType = MimeMapping.getMimeTypeForFilename(file);
-				if (contentType != null) {
-					if (contentType.startsWith("text")) {
-						request.response().putHeader("Content-Type", contentType + ";charset=" + defaultContentEncoding);
-					} else {
-						request.response().putHeader("Content-Type", contentType);
-					}
-				}
-
-				// http2 pushing support
-				if (request.version() == HttpVersion.HTTP_2 && http2PushMappings != null) {
-					for (Http2PushMapping dependency : http2PushMappings) {
-						if (!dependency.isNoPush()) {
-							final String dep = dependency.getFilePath();
-							HttpServerResponse response = request.response();
-
-							// get the file props
-							getFileProps(context, dep, filePropsAsyncResult -> {
-								if (filePropsAsyncResult.succeeded()) {
-									// push
-									writeCacheHeaders(request, filePropsAsyncResult.result());
-									response.push(HttpMethod.GET, "/" + dependency.getFilePath(), pushAsyncResult -> {
-										if (pushAsyncResult.succeeded()) {
-											HttpServerResponse res = pushAsyncResult.result();
-											final String depContentType = MimeMapping.getMimeTypeForExtension(file);
-											if (depContentType != null) {
-												if (depContentType.startsWith("text")) {
-													res.putHeader("Content-Type", contentType + ";charset=" + defaultContentEncoding);
-												} else {
-													res.putHeader("Content-Type", contentType);
-												}
-											}
-											res.sendFile(dependency.getFilePath());
-										}
-									});
-								}
-							});
-						}
-					}
-
-				} else if (http2PushMappings != null) {
-					// Link preload when file push is not supported
-					HttpServerResponse response = request.response();
-					List<String> links = new ArrayList<>();
-					for (Http2PushMapping dependency : http2PushMappings) {
+			// http2 pushing support
+			if (request.version() == HttpVersion.HTTP_2 && http2PushMappings != null) {
+				for (Http2PushMapping dependency : http2PushMappings) {
+					if (!dependency.isNoPush()) {
 						final String dep = dependency.getFilePath();
+						HttpServerResponse response = request.response();
+
 						// get the file props
 						getFileProps(context, dep, filePropsAsyncResult -> {
 							if (filePropsAsyncResult.succeeded()) {
 								// push
 								writeCacheHeaders(request, filePropsAsyncResult.result());
-								links.add("<" + dependency.getFilePath() + ">; rel=preload; as="
-									+ dependency.getExtensionTarget() + (dependency.isNoPush() ? "; nopush" : ""));
+								response.push(HttpMethod.GET, "/" + dependency.getFilePath(), pushAsyncResult -> {
+									if (pushAsyncResult.succeeded()) {
+										HttpServerResponse res = pushAsyncResult.result();
+										if (contentType != null) {
+											if (contentType.startsWith("text")) {
+												res.putHeader("Content-Type", contentType + ";charset=" + defaultContentEncoding);
+											} else {
+												res.putHeader("Content-Type", contentType);
+											}
+										}
+										res.sendFile(dependency.getFilePath());
+									}
+								});
 							}
 						});
 					}
-					response.putHeader("Link", links);
 				}
 
-				request.response().sendFile(file, res2 -> {
-					if (res2.failed()) {
-						context.fail(res2.cause());
-					}
-				});
+			} else if (http2PushMappings != null) {
+				// Link preload when file push is not supported
+				HttpServerResponse response = request.response();
+				List<String> links = new ArrayList<>();
+				for (Http2PushMapping dependency : http2PushMappings) {
+					final String dep = dependency.getFilePath();
+					// get the file props
+					getFileProps(context, dep, filePropsAsyncResult -> {
+						if (filePropsAsyncResult.succeeded()) {
+							// push
+							writeCacheHeaders(request, filePropsAsyncResult.result());
+							links.add("<" + dependency.getFilePath() + ">; rel=preload; as="
+								+ dependency.getExtensionTarget() + (dependency.isNoPush() ? "; nopush" : ""));
+						}
+					});
+				}
+				response.putHeader("Link", links);
 			}
+
+			request.response().sendFile(file, res2 -> {
+				if (res2.failed()) {
+					context.fail(res2.cause());
+				}
+			});
 		}
+
 	}
 
 	private synchronized void getFileProps(RoutingContext context, String file, Handler<AsyncResult<FileProps>> resultHandler) {

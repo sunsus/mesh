@@ -26,6 +26,7 @@ import io.reactivex.Flowable;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.http.impl.MimeMapping;
 import io.vertx.ext.web.RoutingContext;
 
 /**
@@ -56,13 +57,11 @@ public class BinaryFieldResponseHandler {
 			return;
 		} else {
 			InternalActionContext ac = new InternalRoutingActionContextImpl(rc);
-
-			if (checkETag(rc, binaryField)) {
-				return;
-			}
-
 			ImageManipulationParameters imageParams = ac.getImageParameters();
 			if (binaryField.hasProcessableImage() && imageParams.hasResizeParams()) {
+				if (checkETag(rc, binaryField)) {
+					return;
+				}
 				resizeAndRespond(rc, binaryField, imageParams);
 			} else {
 				respond(rc, binaryField);
@@ -96,11 +95,11 @@ public class BinaryFieldResponseHandler {
 		String contentLength = String.valueOf(binary.getSize());
 		String fileName = binaryField.getFileName();
 		String contentType = binaryField.getMimeType();
-
-		if (contentType != null) {
-			response.putHeader(HttpHeaders.CONTENT_TYPE, contentType);
+		// Try to guess the contenttype via the filename
+		if (contentType == null) {
+			contentType = MimeMapping.getMimeTypeForFilename(fileName);
 		}
-		response.putHeader(HttpHeaders.CACHE_CONTROL, "must-revalidate");
+
 		response.putHeader(MeshHeaders.WEBROOT_RESPONSE_TYPE, "binary");
 		// TODO encode filename?
 		// TODO images and pdf files should be shown in inline format
@@ -112,8 +111,12 @@ public class BinaryFieldResponseHandler {
 		String localPath = storage.getLocalPath(binary.getUuid());
 		if (localPath != null) {
 			RangeRequestHandler handler = new RangeRequestHandlerImpl();
-			handler.handle(rc, localPath);
+			handler.handle(rc, localPath, contentType);
 		} else {
+			if (contentType != null) {
+				response.putHeader(HttpHeaders.CONTENT_TYPE, contentType);
+			}
+			response.putHeader(HttpHeaders.CACHE_CONTROL, "must-revalidate");
 			response.putHeader(HttpHeaders.CONTENT_LENGTH, contentLength);
 			binary.getStream().subscribe(response::write, rc::fail, response::end);
 		}

@@ -54,7 +54,8 @@ public interface RangeRequestHandler {
 	 * 
 	 * @param rc
 	 * @param localPath
+	 * @param contentType
 	 */
-	void handle(RoutingContext rc, String localPath);
+	void handle(RoutingContext rc, String localPath, String contentType);
 
 }
